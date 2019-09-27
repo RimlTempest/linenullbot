@@ -39,11 +39,15 @@ def callback():
 #  event handler
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if event.message.text == '時間割を教えて':
+    if event.message.text == '時間割':
         day_list = ["月", "火", "水", "木", "金"]
         items = [QuickReplyButton(action=MessageAction(label=f"{day}", text=f"{day}曜日の時間割")) for day in day_list]
         messages = TextSendMessage(text="何曜日の時間割ですか？", quick_reply=QuickReply(items=items))
         client.reply_message(event.reply_token, messages=messages)
+    if event.message.text == 'help':
+        messages = TextSendMessage(text="Send -> 時間割")
+        client.reply_message(event.reply_token, messages=messages)
+
     '''client.reply_message(
         event.reply_token,
         TextSendMessage(text=event.message.text))'''
