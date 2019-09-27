@@ -1,23 +1,18 @@
 import os
 import sys
 import threading
-import time
 
-import requests
-from flask import Flask, abort, request
-
+from flask import Flask
 from linebot import (
     LineBotApi, WebhookHandler
-)
-from linebot.exceptions import (
-    InvalidSignatureError
 )
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 
-from src.Routing.Callback import Callback
-from src.Routing.Root import Root
+from src.Routing.Callback import callbackRet
+from src.Routing.Root import rootRet
+from src.Utils.HerokuChecker import check
 
 app = Flask(__name__)
 
@@ -42,12 +37,12 @@ port = int(os.environ.get("PORT", 5000))
 
 @app.route("/")
 def hello_world():
-    return Root.ret()
+    return rootRet
 
 
 @app.route("/callback", methods=['POST'])
 def callback():
-    return Callback.ret()
+    return callbackRet
 
 
 @handler.add(MessageEvent, message=TextMessage)
@@ -55,12 +50,6 @@ def handle_message(event):
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=event.message.text))
-
-
-def check():
-    while True:
-        time.sleep(60 * 10)
-        requests.get(host + '/check')
 
 
 if __name__ == "__main__":

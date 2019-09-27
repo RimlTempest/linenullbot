@@ -1,4 +1,2 @@
-class Root:
-    @staticmethod
-    def ret():
-        return "heyyyyyyyy!"
+def rootRet():
+    return "heyyyyyyyy!"
