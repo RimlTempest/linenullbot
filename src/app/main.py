@@ -10,31 +10,22 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 
+from src.Constants import Constants
 from src.Routing import Root
 from src.Routing import Callback
+from src.Utils import LoginChecker
 from src.Utils.HerokuChecker import check
 
+#  app call
 app = Flask(__name__)
-
-# 環境変数からchannel_secret・channel_access_tokenを取得
-channel_secret = os.environ['CHANNEL_SECRET']
-channel_access_token = os.environ['CHANNEL_ACCESS_TOKEN']
-
-if channel_secret is None:
-    print('Specify LINE_CHANNEL_SECRET as environment variable.')
-    sys.exit(1)
-if channel_access_token is None:
-    print('Specify LINE_CHANNEL_ACCESS_TOKEN as environment variable.')
-    sys.exit(1)
-
-line_bot_api = LineBotApi(channel_access_token)
-handler = WebhookHandler(channel_secret)
-
-# 多分ここら原因
-host = "0.0.0.0"
-port = int(os.environ.get("PORT", 5000))
+#  Token check
+LoginChecker.check(Constants.SECRET_TOKEN, Constants.ACCESS_TOKEN)
+#  object gen
+client = LineBotApi(Constants.ACCESS_TOKEN)
+handler = WebhookHandler(Constants.SECRET_TOKEN)
 
 
+#  routing
 @app.route("/")
 def hello_world():
     return Root.rootRet()
@@ -45,13 +36,15 @@ def callback():
     return Callback.callbackRet()
 
 
+#  event handler
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    line_bot_api.reply_message(
+    client.reply_message(
         event.reply_token,
         TextSendMessage(text=event.message.text))
 
 
+#  main
 if __name__ == "__main__":
-    app.run(host=host, port=port)
-    threading.Thread(target=check,).start()
+    app.run(host=Constants.HOST, port=Constants.PORT)
+    threading.Thread(target=check, ).start()
