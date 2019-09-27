@@ -10,6 +10,7 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
     FollowEvent, QuickReplyButton, MessageAction, QuickReply)
 
+from src.Wrapper import Client
 from src.Constants import Constants
 from src.Routing import Root
 from src.Routing import Callback
@@ -23,7 +24,6 @@ LoginChecker.check(Constants.SECRET_TOKEN, Constants.ACCESS_TOKEN)
 #  object gen
 client = LineBotApi(Constants.ACCESS_TOKEN)
 handler = WebhookHandler(Constants.SECRET_TOKEN)
-
 
 #  routing
 @app.route("/")
@@ -39,14 +39,17 @@ def callback():
 #  event handler
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    # Wrap
+    Client.client = client
+    Client.event = event
+
     if event.message.text == '時間割':
         day_list = ["月", "火", "水", "木", "金"]
         items = [QuickReplyButton(action=MessageAction(label=f"{day}", text=f"{day}曜日の時間割")) for day in day_list]
         messages = TextSendMessage(text="何曜日の時間割ですか？", quick_reply=QuickReply(items=items))
         client.reply_message(event.reply_token, messages=messages)
     if event.message.text == 'help':
-        messages = TextSendMessage(text="Send -> 時間割")
-        client.reply_message(event.reply_token, messages=messages)
+        Client.sendText("Send -> 時間割")
 
     '''client.reply_message(
         event.reply_token,
