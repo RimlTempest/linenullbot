@@ -32,6 +32,7 @@ if channel_access_token is None:
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
 
+# 多分ここら原因
 host = "0.0.0.0"
 port = "8080"
 
