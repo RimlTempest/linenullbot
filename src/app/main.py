@@ -34,7 +34,7 @@ handler = WebhookHandler(channel_secret)
 
 # 多分ここら原因
 host = "0.0.0.0"
-port = "8080"
+port = int(os.environ.get("PORT", 5000))
 
 
 @app.route("/")
