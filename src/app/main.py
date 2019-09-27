@@ -1,4 +1,5 @@
 import os
+import random
 import sys
 import threading
 
@@ -25,6 +26,7 @@ LoginChecker.check(Constants.SECRET_TOKEN, Constants.ACCESS_TOKEN)
 client = LineBotApi(Constants.ACCESS_TOKEN)
 handler = WebhookHandler(Constants.SECRET_TOKEN)
 
+
 #  routing
 @app.route("/")
 def hello_world():
@@ -43,17 +45,33 @@ def handle_message(event):
     Client.client = client
     Client.event = event
 
-    if event.message.text == '時間割':
-        day_list = ["月", "火", "水", "木", "金"]
-        items = [QuickReplyButton(action=MessageAction(label=f"{day}", text=f"{day}曜日の時間割")) for day in day_list]
-        messages = TextSendMessage(text="何曜日の時間割ですか？", quick_reply=QuickReply(items=items))
+    if event.message.text == 'じゃんけん':
+        day_list = ["チョキ", "グー", "パー"]
+        len_list = []
+        text = ""
+        botflg = random.randint(0, 2)
+        items = [QuickReplyButton(action=MessageAction(label=f"{day}", text=f"{day}を出しました。")) for day in day_list]
+        messages = TextSendMessage(text="じゃーんけーん", quick_reply=QuickReply(items=items))
         client.reply_message(event.reply_token, messages=messages)
+        for i in range(3):
+            if day_list[i] == items:
+                len_list[i] = items
+            elif day_list[i] == items:
+                len_list[i] = items
+            elif day_list[i] == items:
+                len_list[i] = items
+
+        client.reply_message(
+            event.reply_token,
+            TextSendMessage(text=botflg))
     if event.message.text == 'help':
-        Client.sendText("Send -> 時間割")
+        messages = TextSendMessage(text="Send -> 時間割")
+        client.reply_message(event.reply_token, messages=messages)
 
     '''client.reply_message(
         event.reply_token,
         TextSendMessage(text=event.message.text))'''
+
 
 # フォローイベントの場合の処理
 @handler.add(FollowEvent)

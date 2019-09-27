@@ -1,13 +1,14 @@
 from linebot.models import TextSendMessage, QuickReplyButton, MessageAction, QuickReply
 
+#  selfってなんやねん。。
+
 
 class Client:
     def __init__(self, client, event):
         self.client = client
         self.event = event
 
-    @staticmethod
-    def sendText(self, text):
+    def sendText(self, req, text):
         return self.client.reply_message(self.event.reply_token,
                                          TextSendMessage(text=text))
 
