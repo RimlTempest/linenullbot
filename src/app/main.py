@@ -1,6 +1,10 @@
 import os
 import sys
-from flask import Flask, request, abort
+import threading
+import time
+
+import requests
+from flask import Flask, abort, request
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -27,6 +31,9 @@ if channel_access_token is None:
 
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
+
+host = "0.0.0.0";
+port = "5000"
 
 
 @app.route("/")
@@ -59,7 +66,14 @@ def handle_message(event):
         TextSendMessage(text=event.message.text))
 
 
+def check():
+    while True:
+        time.sleep(60 * 10)
+        requests.get(host + '/check')
+
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host=host, port=port)
+    threading.Thread(target=check,).start()
 
 #  heroku logs --app linenullbot
