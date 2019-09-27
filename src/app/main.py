@@ -53,6 +53,7 @@ def handle_message(event):
         items = [QuickReplyButton(action=MessageAction(label=f"{day}", text=f"{day}を出しました。")) for day in day_list]
         messages = TextSendMessage(text="じゃーんけーん", quick_reply=QuickReply(items=items))
         client.reply_message(event.reply_token, messages=messages)
+
         for i in range(3):
             if day_list[i] == items:
                 len_list[i] = items
@@ -61,11 +62,10 @@ def handle_message(event):
             elif day_list[i] == items:
                 len_list[i] = items
 
-        client.reply_message(
-            event.reply_token,
-            TextSendMessage(text=botflg))
+        messages = TextSendMessage(text="🖕🏻")
+        client.reply_message(event.reply_token, messages=messages)
     if event.message.text == 'help':
-        messages = TextSendMessage(text="Send -> 時間割")
+        messages = TextSendMessage(text="Send -> じゃんけん")
         client.reply_message(event.reply_token, messages=messages)
 
     '''client.reply_message(
