@@ -56,7 +56,7 @@ def handle_message(event):
         client.reply_message(event.reply_token, messages=messages)
 
     if event.message.text == 'help':
-        client.reply_message(event.reply_token, TextSendMessage("Send -> じゃんけん\n　Send -> bye"))
+        client.reply_message(event.reply_token, TextSendMessage("Send -> じゃんけん\n　Send -> bye\n Send -> Test"))
 
     if event.message.text == "bye":
         client.reply_message(event.reply_token, TextSendMessage("See you!"))
