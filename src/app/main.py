@@ -33,7 +33,7 @@ line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
 
 host = "0.0.0.0";
-port = "5000"
+port = "9000"
 
 
 @app.route("/")
