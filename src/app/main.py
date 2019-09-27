@@ -16,6 +16,9 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 
+from src.Routing.Callback import Callback
+from src.Routing.Root import Root
+
 app = Flask(__name__)
 
 # 環境変数からchannel_secret・channel_access_tokenを取得
@@ -39,25 +42,12 @@ port = int(os.environ.get("PORT", 5000))
 
 @app.route("/")
 def hello_world():
-    return "hello world!"
+    Root.ret()
 
 
 @app.route("/callback", methods=['POST'])
 def callback():
-    # get X-Line-Signature header value
-    signature = request.headers['X-Line-Signature']
-
-    # get request body as text
-    body = request.get_data(as_text=True)
-    app.logger.info("Request body: " + body)
-
-    # handle webhook body
-    try:
-        handler.handle(body, signature)
-    except InvalidSignatureError:
-        abort(400)
-
-    return 'OK'
+    Callback.ret()
 
 
 @handler.add(MessageEvent, message=TextMessage)
@@ -76,5 +66,3 @@ def check():
 if __name__ == "__main__":
     app.run(host=host, port=port)
     threading.Thread(target=check,).start()
-
-#  heroku logs --app linenullbot
