@@ -85,6 +85,7 @@ def handle_message(event):
                 )
             )
         )
+        client.reply_message(event.reply_token, messages=flex_message)
     '''client.reply_message(
         event.reply_token,
         TextSendMessage(text=event.message.text))'''
