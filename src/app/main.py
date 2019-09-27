@@ -10,8 +10,8 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 
-from src.Routing.Callback import callbackRet
-from src.Routing.Root import rootRet
+from src.Routing import Root
+from src.Routing import Callback
 from src.Utils.HerokuChecker import check
 
 app = Flask(__name__)
@@ -37,12 +37,12 @@ port = int(os.environ.get("PORT", 5000))
 
 @app.route("/")
 def hello_world():
-    rootRet()
+    Root.rootRet()
 
 
 @app.route("/callback", methods=['POST'])
 def callback():
-    callbackRet()
+    Callback.callbackRet()
 
 
 @handler.add(MessageEvent, message=TextMessage)
