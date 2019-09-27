@@ -74,16 +74,268 @@ def handle_message(event):
     if event.message.text == "Test":
         flex_message = FlexSendMessage(
             alt_text='hello',
-            contents=BubbleContainer(
-                direction='ltr',
-                hero=ImageComponent(
-                    url='https://example.com/cafe.jpg',
-                    size='full',
-                    aspect_ratio='20:13',
-                    aspect_mode='cover',
-                    action=URIAction(uri='http://example.com', label='label')
-                )
-            )
+            contents={
+                      "type": "carousel",
+                      "contents": [
+                        {
+                          "type": "bubble",
+                          "size": "micro",
+                          "hero": {
+                            "type": "image",
+                            "url": "https://shiawaseninaritai.com/wp-content/uploads/2019/05/39f94af6e839a79ce57553873b282f7b-728x427.png",
+                            "size": "full",
+                            "aspectMode": "cover",
+                            "aspectRatio": "320:213"
+                          },
+                          "body": {
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [
+                              {
+                                "type": "text",
+                                "text": "ゆゆうた",
+                                "weight": "bold",
+                                "size": "sm",
+                                "wrap": True
+                              },
+                              {
+                                "type": "box",
+                                "layout": "baseline",
+                                "contents": [
+                                  {
+                                    "type": "icon",
+                                    "size": "xs",
+                                    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
+                                  },
+                                  {
+                                    "type": "icon",
+                                    "size": "xs",
+                                    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
+                                  },
+                                  {
+                                    "type": "icon",
+                                    "size": "xs",
+                                    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
+                                  },
+                                  {
+                                    "type": "icon",
+                                    "size": "xs",
+                                    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
+                                  },
+                                  {
+                                    "type": "icon",
+                                    "size": "xs",
+                                    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gray_star_28.png"
+                                  },
+                                  {
+                                    "type": "text",
+                                    "text": "4.0",
+                                    "size": "xs",
+                                    "color": "#8c8c8c",
+                                    "margin": "md",
+                                    "flex": 0
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "box",
+                                "layout": "vertical",
+                                "contents": [
+                                  {
+                                    "type": "box",
+                                    "layout": "baseline",
+                                    "spacing": "sm",
+                                    "contents": [
+                                      {
+                                        "type": "text",
+                                        "text": "OMMC",
+                                        "wrap": True,
+                                        "color": "#8c8c8c",
+                                        "size": "xs",
+                                        "flex": 5
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ],
+                            "spacing": "sm",
+                            "paddingAll": "13px"
+                          }
+                        },
+                        {
+                          "type": "bubble",
+                          "size": "micro",
+                          "hero": {
+                            "type": "image",
+                            "url": "https://livedoor.blogimg.jp/jin115/imgs/6/1/61d89d0f.jpg",
+                            "size": "full",
+                            "aspectMode": "cover",
+                            "aspectRatio": "320:213"
+                          },
+                          "body": {
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [
+                              {
+                                "type": "text",
+                                "text": "からさわたかひろ",
+                                "weight": "bold",
+                                "size": "sm",
+                                "wrap": True
+                              },
+                              {
+                                "type": "box",
+                                "layout": "baseline",
+                                "contents": [
+                                  {
+                                    "type": "icon",
+                                    "size": "xs",
+                                    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
+                                  },
+                                  {
+                                    "type": "icon",
+                                    "size": "xs",
+                                    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
+                                  },
+                                  {
+                                    "type": "icon",
+                                    "size": "xs",
+                                    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
+                                  },
+                                  {
+                                    "type": "icon",
+                                    "size": "xs",
+                                    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
+                                  },
+                                  {
+                                    "type": "icon",
+                                    "size": "xs",
+                                    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gray_star_28.png"
+                                  },
+                                  {
+                                    "type": "text",
+                                    "text": "4.0",
+                                    "size": "sm",
+                                    "color": "#8c8c8c",
+                                    "margin": "md",
+                                    "flex": 0
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "box",
+                                "layout": "vertical",
+                                "contents": [
+                                  {
+                                    "type": "box",
+                                    "layout": "baseline",
+                                    "spacing": "sm",
+                                    "contents": [
+                                      {
+                                        "type": "text",
+                                        "text": "あああああああ",
+                                        "wrap": True,
+                                        "color": "#8c8c8c",
+                                        "size": "xs",
+                                        "flex": 5
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ],
+                            "spacing": "sm",
+                            "paddingAll": "13px"
+                          }
+                        },
+                        {
+                          "type": "bubble",
+                          "size": "micro",
+                          "hero": {
+                            "type": "image",
+                            "url": "https://i.ytimg.com/vi/Mr5gPPYBlg8/maxresdefault.jpg",
+                            "size": "full",
+                            "aspectMode": "cover",
+                            "aspectRatio": "320:213"
+                          },
+                          "body": {
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [
+                              {
+                                "type": "text",
+                                "text": "しゃむ",
+                                "weight": "bold",
+                                "size": "sm"
+                              },
+                              {
+                                "type": "box",
+                                "layout": "baseline",
+                                "contents": [
+                                  {
+                                    "type": "icon",
+                                    "size": "xs",
+                                    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
+                                  },
+                                  {
+                                    "type": "icon",
+                                    "size": "xs",
+                                    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
+                                  },
+                                  {
+                                    "type": "icon",
+                                    "size": "xs",
+                                    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
+                                  },
+                                  {
+                                    "type": "icon",
+                                    "size": "xs",
+                                    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
+                                  },
+                                  {
+                                    "type": "icon",
+                                    "size": "xs",
+                                    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gray_star_28.png"
+                                  },
+                                  {
+                                    "type": "text",
+                                    "text": "4.0",
+                                    "size": "sm",
+                                    "color": "#8c8c8c",
+                                    "margin": "md",
+                                    "flex": 0
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "box",
+                                "layout": "vertical",
+                                "contents": [
+                                  {
+                                    "type": "box",
+                                    "layout": "baseline",
+                                    "spacing": "sm",
+                                    "contents": [
+                                      {
+                                        "type": "text",
+                                        "text": "それってYO！",
+                                        "wrap": True,
+                                        "color": "#8c8c8c",
+                                        "size": "xs",
+                                        "flex": 5
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ],
+                            "spacing": "sm",
+                            "paddingAll": "13px"
+                          }
+                        }
+                      ]
+                    }
         )
         client.reply_message(event.reply_token, messages=flex_message)
     '''client.reply_message(
