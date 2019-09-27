@@ -42,12 +42,12 @@ port = int(os.environ.get("PORT", 5000))
 
 @app.route("/")
 def hello_world():
-    Root.ret()
+    return Root.ret()
 
 
 @app.route("/callback", methods=['POST'])
 def callback():
-    Callback.ret()
+    return Callback.ret()
 
 
 @handler.add(MessageEvent, message=TextMessage)
