@@ -32,7 +32,7 @@ if channel_access_token is None:
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
 
-host = "0.0.0.0";
+host = "0.0.0.0"
 port = "9000"
 
 
