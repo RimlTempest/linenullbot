@@ -9,7 +9,8 @@ from linebot import (
 )
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
-    FollowEvent, QuickReplyButton, MessageAction, QuickReply)
+    FollowEvent, QuickReplyButton, MessageAction, QuickReply, FlexSendMessage, BubbleContainer, ImageComponent,
+    URIAction)
 
 from src.Wrapper import Client
 from src.Constants import Constants
@@ -54,20 +55,36 @@ def handle_message(event):
         messages = TextSendMessage(text="じゃーんけーん", quick_reply=QuickReply(items=items))
         client.reply_message(event.reply_token, messages=messages)
 
-        for i in range(3):
-            if day_list[i] == items:
-                len_list[i] = items
-            elif day_list[i] == items:
-                len_list[i] = items
-            elif day_list[i] == items:
-                len_list[i] = items
-
-        messages = TextSendMessage(text="🖕🏻")
-        client.reply_message(event.reply_token, messages=messages)
     if event.message.text == 'help':
-        messages = TextSendMessage(text="Send -> じゃんけん")
-        client.reply_message(event.reply_token, messages=messages)
+        client.reply_message(event.reply_token, TextSendMessage("Send -> じゃんけん\n　Send -> bye"))
 
+    if event.message.text == "bye":
+        client.reply_message(event.reply_token, TextSendMessage("See you!"))
+
+        # グループトークからの退出処理
+        if hasattr(event.source, "group_id"):
+            client.leave_group(event.source.group_id)
+
+        # ルームからの退出処理
+        if hasattr(event.source, "room_id"):
+            client.leave_room(event.source.room_id)
+
+        return
+
+    if event.message.text == "Test":
+        flex_message = FlexSendMessage(
+            alt_text='hello',
+            contents=BubbleContainer(
+                direction='ltr',
+                hero=ImageComponent(
+                    url='https://example.com/cafe.jpg',
+                    size='full',
+                    aspect_ratio='20:13',
+                    aspect_mode='cover',
+                    action=URIAction(uri='http://example.com', label='label')
+                )
+            )
+        )
     '''client.reply_message(
         event.reply_token,
         TextSendMessage(text=event.message.text))'''
