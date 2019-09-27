@@ -1,2 +1,2 @@
-def rootRet():
+def rootRet() -> str:
     return "heyyyyyyyy!"
