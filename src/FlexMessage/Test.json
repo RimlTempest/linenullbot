@@ -158,7 +158,7 @@
                 "contents": [
                   {
                     "type": "text",
-                    "text": "{{ item }}",
+                    "text": "ああああ",
                     "wrap": true,
                     "color": "#8c8c8c",
                     "size": "xs",
