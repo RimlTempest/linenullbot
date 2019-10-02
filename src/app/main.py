@@ -76,7 +76,10 @@ def handle_message(event):
         try:
             tf = TestFlex
             flex_message = tf.TestFlex()
-            client.reply_message(event.reply_token, messages=flex_message)
+            client.reply_message(event.reply_token,
+                                 messages=FlexSendMessage(
+                                     alt_text='hello',
+                                     contents=flex_message))
         except Exception as e:
             client.reply_message(event.reply_token, TextSendMessage("[Error]\n" + str(e)))
 
