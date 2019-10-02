@@ -3,8 +3,8 @@ from linebot.models import FlexSendMessage, BubbleContainer, CarouselContainer, 
 
 
 class Flex:
-    @property
-    def TestFlex(self):
+    @staticmethod
+    def TestFlex():
         host = "https://"
         urls = {0: f"{host}shiawaseninaritai.com/wp-content/uploads/2019/05/39f94af6e839a79ce57553873b282f7b-728x427.png",
                 1: f"{host}livedoor.blogimg.jp/jin115/imgs/6/1/61d89d0f.jpg",

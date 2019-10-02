@@ -74,7 +74,7 @@ def handle_message(event):
 
     if event.message.text == "Test":
         tf = TestFlex.Flex
-        flex_message = tf.TestFlex
+        flex_message = tf.TestFlex()
         client.reply_message(event.reply_token, messages=flex_message)
     '''client.reply_message(
         event.reply_token,
