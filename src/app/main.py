@@ -96,8 +96,12 @@ def handle_message(event):
                                  messages=FlexSendMessage(
                                      alt_text='hello',
                                      contents=CarouselContainer.new_from_json_dict(json.loads(data))))
-        except:
-            client.reply_message(event.reply_token, TextSendMessage(f"[Error]\n{sys.exc_info()}"))
+        except Exception as e:
+            tb = sys.exc_info()[2]
+            client.reply_message(event.reply_token, TextSendMessage(f"[Error]\nType:{str(type(e))}\n"
+                                                                    f"Args:{str(e.args)}\n"
+                                                                    f"Except:{str(e)}\n"
+                                                                    f"Mes:\n{e.with_traceback(tb)}"))
 
     '''client.reply_message(
         event.reply_token,
