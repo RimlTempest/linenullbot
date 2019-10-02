@@ -75,7 +75,11 @@ def handle_message(event):
         return
 
     if event.message.text == "dir":
-        client.reply_message(event.reply_token, TextSendMessage(str(os.getcwd())))
+        currentdir = os.getcwd()
+        ls = os.listdir(currentdir)
+        full_path = os.path.realpath(__file__)
+        client.reply_message(event.reply_token, TextSendMessage(str(
+            f"{currentdir}\n{str(ls)}\n{full_path}")))
 
     if event.message.text == "Test":
         try:
@@ -87,7 +91,7 @@ def handle_message(event):
                                      contents=flex_message))'''
 
             item = "ぶりぶり"
-            with open('FlexMessage/Test.json') as f:
+            with open('/FlexMessage/Test.json') as f:
                 client.reply_message(event.reply_token,
                                      messages=FlexSendMessage(
                                          alt_text='hello',
