@@ -156,7 +156,7 @@ def TestFlex():
                     ],
                     spacing="sm",
                     paddingAll="13px"
-                )
+                ),
             ),
             BubbleContainer(
                 size="micro",
