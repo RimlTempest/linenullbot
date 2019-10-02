@@ -73,9 +73,15 @@ def handle_message(event):
         return
 
     if event.message.text == "Test":
-        tf = TestFlex.Flex
-        flex_message = tf.TestFlex()
-        client.reply_message(event.reply_token, messages=flex_message)
+        try:
+            tf = TestFlex.Flex
+            flex_message = tf.TestFlex()
+            client.reply_message(event.reply_token, messages=flex_message)
+        except AttributeError as ae:
+            client.reply_message(event.reply_token, TextSendMessage("[AttributeError]\n" + str(ae)))
+        except TypeError as te:
+            client.reply_message(event.reply_token, TextSendMessage("[TypeError]\n" + str(te)))
+
     '''client.reply_message(
         event.reply_token,
         TextSendMessage(text=event.message.text))'''
