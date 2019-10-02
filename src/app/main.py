@@ -65,7 +65,7 @@ def handle_message(event):
         messages = TextSendMessage(text="じゃーんけーん", quick_reply=QuickReply(items=items))
         client.reply_message(event.reply_token, messages=messages)
     elif event.message.text in hands:
-        client.reply_message(event.reply_token, TextSendMessage(Janken.Rock_Paper_Scissors(hands)))
+        client.reply_message(event.reply_token, TextSendMessage(Janken.Rock_Paper_Scissors(event.message.text)))
 
     if event.message.text == 'help':
         client.reply_message(event.reply_token, TextSendMessage("Send -> じゃんけん\nSend -> bye\nSend -> Test"))
