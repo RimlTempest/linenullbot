@@ -5,7 +5,6 @@ import sys
 import threading
 
 from flask import Flask
-from jinja2 import Environment, FileSystemLoader, select_autoescape
 from linebot import (
     LineBotApi, WebhookHandler
 )
@@ -29,11 +28,6 @@ LoginChecker.check(Constants.SECRET_TOKEN, Constants.ACCESS_TOKEN)
 #  object gen
 client = LineBotApi(Constants.ACCESS_TOKEN)
 handler = WebhookHandler(Constants.SECRET_TOKEN)
-
-template_env = Environment(
-    loader=FileSystemLoader('src/FlexMessage'),
-    autoescape=select_autoescape(['html', 'xml', 'json'])
-)
 
 
 #  routing
@@ -89,13 +83,11 @@ def handle_message(event):
                                      contents=flex_message))'''
 
             item = "ぶりぶり"
-            template = template_env.get_template('Test.json')
-            data = template.render(dict(items=item))
-
-            client.reply_message(event.reply_token,
-                                 messages=FlexSendMessage(
-                                     alt_text='hello',
-                                     contents=CarouselContainer.new_from_json_dict(json.loads(data))))
+            with open('../FlexMessage/Test.json') as f:
+                client.reply_message(event.reply_token,
+                                     messages=FlexSendMessage(
+                                         alt_text='hello',
+                                         contents=CarouselContainer.new_from_json_dict(json.loads(f))))
         except Exception as e:
             tb = sys.exc_info()[2]
             client.reply_message(event.reply_token, TextSendMessage(f"[Error]\nType:{str(type(e))}\n"
