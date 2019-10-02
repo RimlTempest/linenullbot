@@ -1,10 +1,13 @@
 import random
 
 
-def Rock_Paper_Scissors(user_hand):
+def Rock_Paper_Scissors(user_hand, battle_flg):
     hands = ['グー', 'チョキ', 'パー']
     res_text = 'グー,チョキ,パーを選んでください。'
     check_flg = False
+
+    if battle_flg:
+        battle_flg = False
 
     for check_hand in hands:
         if user_hand == check_hand:
@@ -37,5 +40,5 @@ def Rock_Paper_Scissors(user_hand):
         res_text = f"あなたは{user_hand}で私は{hand}でした。\n" \
                    f"私の勝ちです。"
 
-    return res_text
+    return res_text, battle_flg
 

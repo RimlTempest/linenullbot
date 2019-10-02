@@ -50,6 +50,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     hands = ["グー", "チョキ", "パー"]
+    battle_flg = False
 
     if event.message.text == 'じゃんけん':
         hands_img = {"グー":"https://image.middle-edge.jp/medium/d334db3f-010d-45f0-8999-d57c84e76677.jpg?1485589415",
@@ -64,8 +65,16 @@ def handle_message(event):
                                   ) for hand in hands]
         messages = TextSendMessage(text="じゃーんけーん", quick_reply=QuickReply(items=items))
         client.reply_message(event.reply_token, messages=messages)
-    elif event.message.text in hands:
-        client.reply_message(event.reply_token, TextSendMessage(Janken.Rock_Paper_Scissors(event.message.text)))
+        battle_flg = True
+
+    if event.message.text in hands and battle_flg:
+        res_text, ret_battle_flg = Janken.Rock_Paper_Scissors(event.message.text, battle_flg)
+        client.reply_message(event.reply_token,
+                             TextSendMessage(
+                                 res_text
+                             ))
+        battle_flg = ret_battle_flg
+        print(battle_flg)
 
     if event.message.text == 'help':
         client.reply_message(event.reply_token, TextSendMessage("Send -> じゃんけん\nSend -> bye\nSend -> Test"))
