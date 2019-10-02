@@ -14,9 +14,8 @@ from linebot.models import (
     FollowEvent, QuickReplyButton, MessageAction, QuickReply, FlexSendMessage, BubbleContainer, ImageComponent,
     URIAction, CarouselContainer)
 
+from src.Cmds import Janken
 from src.Decorators.ErrorDecorator import Err_tag
-from src.FlexMessage import TestFlex
-from src.Wrapper import Client
 from src.Constants import Constants
 from src.Routing import Root
 from src.Routing import Callback
@@ -27,12 +26,12 @@ from src.Utils.HerokuChecker import check
 app = Flask(__name__)
 #  Token check
 LoginChecker.check(Constants.SECRET_TOKEN, Constants.ACCESS_TOKEN)
-#  object gen
+# 　Client handler generation
 client = LineBotApi(Constants.ACCESS_TOKEN)
 handler = WebhookHandler(Constants.SECRET_TOKEN)
-
+# 　load in flexMessage
 template_env = Environment(
-    loader=FileSystemLoader('src/FlexMessage'),
+    loader=FileSystemLoader('src/View'),
     autoescape=select_autoescape(['html', 'xml', 'json'])
 )
 
@@ -50,18 +49,23 @@ def callback():
 #  event handler
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    # Wrap
-    Client.client = client
-    Client.event = event
+    hands = ["グー", "チョキ", "パー"]
 
     if event.message.text == 'じゃんけん':
-        day_list = ["チョキ", "グー", "パー"]
-        len_list = []
-        text = ""
-        botflg = random.randint(0, 2)
-        items = [QuickReplyButton(action=MessageAction(label=f"{day}", text=f"{day}を出しました。")) for day in day_list]
+        hands_img = {"グー":"https://image.middle-edge.jp/medium/d334db3f-010d-45f0-8999-d57c84e76677.jpg?1485589415",
+                     "チョキ":"https://www.sozai-library.com/wp-content/uploads/2015/07/5092-300x225.jpg",
+                     "パー":"https://image.jimcdn.com/app/cms/image/transf/none/path/se516d3bb2a89d52e/image"
+                     "/i65b87465dfb3a4ab/version/1551120498/image.jpg"
+                     }
+        items = [QuickReplyButton(image_url=hands_img[hand],
+                                  action=MessageAction(
+                                      label=f"{hand}",
+                                      text=f"{hand}")
+                                  ) for hand in hands]
         messages = TextSendMessage(text="じゃーんけーん", quick_reply=QuickReply(items=items))
         client.reply_message(event.reply_token, messages=messages)
+    elif event.message.text in hands:
+        client.reply_message(event.reply_token, TextSendMessage(Janken.Rock_Paper_Scissors(hands)))
 
     if event.message.text == 'help':
         client.reply_message(event.reply_token, TextSendMessage("Send -> じゃんけん\nSend -> bye\nSend -> Test"))
@@ -88,13 +92,6 @@ def handle_message(event):
 
     if event.message.text == "Test":
         try:
-            tf = TestFlex
-            flex_message = tf.TestFlex()
-            '''client.reply_message(event.reply_token,
-                                 messages=FlexSendMessage(
-                                     alt_text='hello',
-                                     contents=flex_message))'''
-
             item = "ぶりぶり"
             template = template_env.get_template('Test.json')
             data = template.render(dict(items=item))
