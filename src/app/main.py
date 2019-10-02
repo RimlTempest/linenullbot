@@ -91,7 +91,7 @@ def handle_message(event):
                                      contents=flex_message))'''
 
             item = "ぶりぶり"
-            with open('/FlexMessage/Test.json') as f:
+            with open('src/FlexMessage/Test.json') as f:
                 client.reply_message(event.reply_token,
                                      messages=FlexSendMessage(
                                          alt_text='hello',
