@@ -13,6 +13,7 @@ from linebot.models import (
     FollowEvent, QuickReplyButton, MessageAction, QuickReply, FlexSendMessage, BubbleContainer, ImageComponent,
     URIAction, CarouselContainer)
 
+from src.Decorators.ErrorDecorator import Err_tag
 from src.FlexMessage import TestFlex
 from src.Wrapper import Client
 from src.Constants import Constants
@@ -72,6 +73,9 @@ def handle_message(event):
             client.leave_room(event.source.room_id)
 
         return
+
+    if event.message.text == "dir":
+        client.reply_message(event.reply_token, TextSendMessage(str(os.getcwd())))
 
     if event.message.text == "Test":
         try:
