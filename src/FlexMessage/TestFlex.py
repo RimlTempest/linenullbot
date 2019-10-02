@@ -11,7 +11,7 @@ def TestFlex():
     stars = {0: f"{host}scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png",
              1: f"{host}scdn.line-apps.com/n/channel_devcenter/img/fx/review_gray_star_28.png"}
 
-    flex = CarouselContainer(
+    '''flex = CarouselContainer(
         contents=[
             BubbleContainer(
                 size="micro",
@@ -232,5 +232,22 @@ def TestFlex():
                 )
             )
         ]
+    )'''
+    flex = BubbleContainer(
+        header=BoxComponent(
+            layout='vertical',
+            contents=[
+                TextComponent(
+                    text="ああああ",
+                    weight='bold',
+                    color='#aaaaaa',
+                    size='lg'
+                )
+            ]
+        ),
+        hero=ImageComponent(
+            size='lg',
+            url=urls[0]
+        )
     )
     return flex
