@@ -31,7 +31,7 @@ client = LineBotApi(Constants.ACCESS_TOKEN)
 handler = WebhookHandler(Constants.SECRET_TOKEN)
 
 template_env = Environment(
-    loader=FileSystemLoader('../FlexMessage'),
+    loader=FileSystemLoader('src/FlexMessage'),
     autoescape=select_autoescape(['html', 'xml', 'json'])
 )
 
@@ -97,7 +97,7 @@ def handle_message(event):
                                      alt_text='hello',
                                      contents=CarouselContainer.new_from_json_dict(json.loads(data))))
         except Exception as e:
-            client.reply_message(event.reply_token, TextSendMessage("[Error]\n" + str(e)))
+            client.reply_message(event.reply_token, TextSendMessage(f"[Error]\n{str(e.__str__())}"))
 
     '''client.reply_message(
         event.reply_token,
