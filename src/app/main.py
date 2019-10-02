@@ -91,11 +91,11 @@ def handle_message(event):
                                      contents=flex_message))'''
 
             item = "ぶりぶり"
-            with open('src/FlexMessage/Test.json') as f:
-                client.reply_message(event.reply_token,
-                                     messages=FlexSendMessage(
-                                         alt_text='hello',
-                                         contents=CarouselContainer.new_from_json_dict(json.loads(f))))
+            json_file = open('test.json', 'r')
+            client.reply_message(event.reply_token,
+                                 messages=FlexSendMessage(
+                                     alt_text='hello',
+                                     contents=CarouselContainer.new_from_json_dict(json.loads(json_file))))
         except Exception as e:
             tb = sys.exc_info()[2]
             client.reply_message(event.reply_token, TextSendMessage(f"[Error]\nType:{str(type(e))}\n"
