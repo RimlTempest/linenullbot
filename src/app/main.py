@@ -92,10 +92,10 @@ def handle_message(event):
             template = template_env.get_template('Test.json')
             data = template.render(dict(items=item))
 
-            client.reply_message(event.reply_token,
-                                 messages=FlexSendMessage(
-                                     alt_text='hello',
-                                     contents=CarouselContainer.new_from_json_dict(json.loads(data))))
+            client.push_message(event.reply_token,
+                                messages=FlexSendMessage(
+                                    alt_text='hello',
+                                    contents=CarouselContainer.new_from_json_dict(json.loads(data))))
         except Exception as e:
             client.reply_message(event.reply_token, TextSendMessage("[Error]\n" + str(e)))
 
