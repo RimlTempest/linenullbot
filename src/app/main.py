@@ -97,8 +97,7 @@ def handle_message(event):
                                      alt_text='hello',
                                      contents=CarouselContainer.new_from_json_dict(json.loads(data))))
         except:
-            import traceback
-            client.reply_message(event.reply_token, TextSendMessage(f"[Error]\n{str(traceback.print_exc())}"))
+            client.reply_message(event.reply_token, TextSendMessage(f"[Error]\n{sys.exc_info()}"))
 
     '''client.reply_message(
         event.reply_token,
