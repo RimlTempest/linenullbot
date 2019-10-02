@@ -31,7 +31,7 @@ client = LineBotApi(Constants.ACCESS_TOKEN)
 handler = WebhookHandler(Constants.SECRET_TOKEN)
 
 template_env = Environment(
-    loader=FileSystemLoader('FlexMessage'),
+    loader=FileSystemLoader('../FlexMessage'),
     autoescape=select_autoescape(['html', 'xml', 'json'])
 )
 
