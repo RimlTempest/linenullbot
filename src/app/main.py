@@ -12,7 +12,7 @@ from linebot import (
 from linebot.models import (
     MessageEvent, FollowEvent, AccountLinkEvent, BeaconEvent, JoinEvent, MemberJoinedEvent, PostbackEvent,
     TextMessage, TextSendMessage, FlexSendMessage,
-    QuickReplyButton, MessageAction, QuickReply,  CarouselContainer)
+    QuickReplyButton, MessageAction, QuickReply, CarouselContainer, ImageSendMessage)
 
 from src.Cmds import Janken
 from src.Constants import Constants
@@ -103,6 +103,14 @@ def handle_message(event):
 
     if event.message.text == 'UserId':
         client.reply_message(event.reply_token, TextSendMessage(event.source.user_id))
+
+    if event.message.text == 'Profile':
+        profile = client.get_profile(event.source.user_id)
+        name = profile.display_name  # -> 表示名
+        userid = profile.user_id  # -> ユーザーID
+        image = profile.picture_url  # -> 画像のURL
+        client.reply_message(event.reply_token, TextSendMessage(f"Name:{name}\nUserId:{userid}"))
+        client.reply_message(event.reply_token, ImageSendMessage(original_content_url=image, preview_image_url=image))
 
     if event.message.text == "dir":
         current_dir = os.getcwd()
