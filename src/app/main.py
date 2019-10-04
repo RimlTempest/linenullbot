@@ -85,6 +85,7 @@ def handle_message(event):
         cmd_mes = ''
         for cmd in commands:
             cmd_mes += cmd + "\n"
+            cmd_mes += commands[cmd]
         client.reply_message(event.reply_token, TextSendMessage(cmd_mes))
 
     if event.message.text == "bye":
