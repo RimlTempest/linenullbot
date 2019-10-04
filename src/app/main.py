@@ -1,8 +1,8 @@
 import json
 import os
-import random
 import sys
 import threading
+import psycopg2
 
 from flask import Flask
 from jinja2 import Environment, FileSystemLoader, select_autoescape
@@ -10,12 +10,11 @@ from linebot import (
     LineBotApi, WebhookHandler
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
-    FollowEvent, QuickReplyButton, MessageAction, QuickReply, FlexSendMessage, BubbleContainer, ImageComponent,
-    URIAction, CarouselContainer)
+    MessageEvent, FollowEvent, AccountLinkEvent, BeaconEvent, JoinEvent, MemberJoinedEvent, PostbackEvent,
+    TextMessage, TextSendMessage, FlexSendMessage,
+    QuickReplyButton, MessageAction, QuickReply,  CarouselContainer)
 
 from src.Cmds import Janken
-from src.Decorators.ErrorDecorator import Err_tag
 from src.Constants import Constants
 from src.Routing import Root
 from src.Routing import Callback
@@ -35,6 +34,7 @@ template_env = Environment(
     autoescape=select_autoescape(['html', 'xml', 'json'])
 )
 
+
 #  routing
 @app.route("/")
 def hello_world():
@@ -48,15 +48,20 @@ def callback():
 
 #  event handler
 @handler.add(MessageEvent, message=TextMessage)
+@handler.add(FollowEvent)
 def handle_message(event):
     hands = ["グー", "チョキ", "パー"]
     battle_flg = False
+    commands = {"bye": "グループを退会します。",
+                "dir": "ディレクトリの表示をします。",
+                "Test": "FlexMessageのテストを表示します。",
+                "UserId": "UserIdを表示します。"}
 
     if event.message.text == 'じゃんけん':
-        hands_img = {"グー":"https://image.middle-edge.jp/medium/d334db3f-010d-45f0-8999-d57c84e76677.jpg?1485589415",
-                     "チョキ":"https://www.sozai-library.com/wp-content/uploads/2015/07/5092-300x225.jpg",
-                     "パー":"https://image.jimcdn.com/app/cms/image/transf/none/path/se516d3bb2a89d52e/image"
-                     "/i65b87465dfb3a4ab/version/1551120498/image.jpg"
+        hands_img = {"グー": "https://image.middle-edge.jp/medium/d334db3f-010d-45f0-8999-d57c84e76677.jpg?1485589415",
+                     "チョキ": "https://www.sozai-library.com/wp-content/uploads/2015/07/5092-300x225.jpg",
+                     "パー": "https://image.jimcdn.com/app/cms/image/transf/none/path/se516d3bb2a89d52e/image"
+                           "/i65b87465dfb3a4ab/version/1551120498/image.jpg"
                      }
         items = [QuickReplyButton(image_url=hands_img[hand],
                                   action=MessageAction(
@@ -68,16 +73,19 @@ def handle_message(event):
         battle_flg = True
 
     if event.message.text in hands and battle_flg:
-        res_text, ret_battle_flg = Janken.Rock_Paper_Scissors(event.message.text, battle_flg)
+        res_text = Janken.Rock_Paper_Scissors(event.message.text)
         client.reply_message(event.reply_token,
                              TextSendMessage(
                                  res_text
                              ))
-        battle_flg = ret_battle_flg
+        battle_flg = False
         print(battle_flg)
 
     if event.message.text == 'help':
-        client.reply_message(event.reply_token, TextSendMessage("Send -> じゃんけん\nSend -> bye\nSend -> Test"))
+        cmd_mes = ''
+        for cmd in commands:
+            cmd_mes += cmd + "\n"
+        client.reply_message(event.reply_token, TextSendMessage(cmd_mes))
 
     if event.message.text == "bye":
         client.reply_message(event.reply_token, TextSendMessage("See you!"))
@@ -92,12 +100,15 @@ def handle_message(event):
 
         return
 
+    if event.message.text == 'UserId':
+        client.reply_message(event.reply_token, TextSendMessage(event.source.user_id))
+
     if event.message.text == "dir":
-        currentdir = os.getcwd()
-        ls = os.listdir(currentdir)
+        current_dir = os.getcwd()
+        ls = os.listdir(current_dir)
         full_path = os.path.realpath(__file__)
         client.reply_message(event.reply_token, TextSendMessage(str(
-            f"{currentdir}\n{str(ls)}\n{full_path}")))
+            f"{current_dir}\n{str(ls)}\n{full_path}")))
 
     if event.message.text == "Test":
         try:
